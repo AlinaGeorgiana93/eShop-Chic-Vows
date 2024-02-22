@@ -9,7 +9,7 @@ namespace eShop.Data.Services;
 public class DbService : IDbService
 {
     private readonly EShopContext _db;
-    private readonly IMapper _mapper;
+    public readonly IMapper _mapper;
 
     public DbService(EShopContext db, IMapper mapper)
     {
