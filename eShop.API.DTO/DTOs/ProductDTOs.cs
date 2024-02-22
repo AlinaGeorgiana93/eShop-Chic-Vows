@@ -16,4 +16,9 @@ public class ProductGetDTO : ProductPutDTO
     public List<SizeGetDTO>? Sizes { get; set; }
     //public List<FilterGetDTO>? Filters { get; set; }
 }
+public class CartItemDTO : ProductPutDTO
+{
+    public ColorGetDTO? Color { get; set; }
+    public SizeGetDTO? Size { get; set; }
+}
 
