@@ -1,5 +1,7 @@
-﻿@using eShop.UI.Storage.Services
+﻿@using AutoMapper
+@using eShop.UI.Storage.Services
 @inject IStorageService Storage
+@inject IMapper mapper
 
 <section class="d-flex flex-wrap">
     @foreach(var product in Service!.Products)
@@ -79,19 +81,28 @@
 
     async Task AddToCart(ProductGetDTO product)
     {
-        //await Task.Run(() =>
-    //{
-        
-    //});
         //TODO: Spara flera produkter till shopping cart
         //TODO: Visa produkterna i shopping carten
         //TODO: Ta bort produkt från shopping cart
+        var cartItem = mapper.Map<CartItemDTO>(product);
+        cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected);
+        cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
+        Service!.CartItems.Add(cartItem);
+        await Service!.SaveToStorage("CartItems", Service!.CartItems);
 
-        //await Storage.SetAsync("MyKey", product);
-        //var prod = await Storage.GetAsync<ProductGetDTO>("MyKey");
-        //await Storage.RemoveAsync("MyKey");
+            if (OnChange.HasDelegate)
+                 await OnChange.InvokeAsync();
+
+            //await Storage.SetAsync("MyKey", product);
+            //await Service!.SaveToStorage("MyKey", product);
+
+            //var prod = await Storage.GetAsync<ProductGetDTO>("MyKey");
+            //var prod = await Service!.ReadSingleStorage<ProductGetDTO>("MyKey");
 
 
-        //var product = Service!.Products.Single(p => p.Id == id);
-    }
-}
+            //await Storage.RemoveAsync("MyKey");
+            //await Service!.RemoveFromStorage("MyKey");
+
+            //var product = Service!.Products.Single(p => p.Id == id);
+} 
+     }
