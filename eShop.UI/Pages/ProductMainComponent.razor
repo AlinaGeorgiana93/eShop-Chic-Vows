@@ -71,21 +71,12 @@
         size.IsSelected = true;
     }
 
-    /*void OnColorClick1(int productId, int colorId)
-        {
-        var product = Service!.Products.Single(p => p.Id == productId);
-        product.Colors!.ForEach(c => c.IsSelected = false);
-        var color = product.Colors.Single(c => c.Id == colorId);
-        color.IsSelected = true;
-    }*/
-
 
     async Task AddToCart(ProductGetDTO product)
     {
-        //TODO: Spara flera produkter till shopping cart
-        //TODO: Visa produkterna i shopping carten
-        //TODO: Ta bort produkt från shopping cart
+        
         var cartItem = mapper.Map<CartItemDTO>(product);  // konverterar produkten till CartItemDTO
+        cartItem.Description = null; //set to null because we don't need description in our Cart
         cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected); //hämtar ut den valda färgen av produkten
         cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
         Service!.CartItems.Add(cartItem); //tar list-property från UIService för kundvagnen

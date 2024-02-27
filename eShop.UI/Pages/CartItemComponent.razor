@@ -19,6 +19,7 @@
 
 @code {
     [Parameter] public CartItemDTO? CartItem { get; set; }
+    [Parameter] public List<CartItemDTO>? CartItems { get; set; }
     [Parameter] public EventCallback<CartItemDTO?> OnRemoveItem { get; set; }
 
     void RemoveItem()
@@ -26,4 +27,17 @@
         if (OnRemoveItem.HasDelegate)
             OnRemoveItem.InvokeAsync(CartItem);
     }
+    /*decimal CalculateTotal()
+         {
+         decimal total = 0;
+         if (CartItems != null)
+             {
+             foreach (var item in CartItems)
+                 {
+                 total += item.Price;
+         }
+         }
+     return total;
+         }
+    */
 }
