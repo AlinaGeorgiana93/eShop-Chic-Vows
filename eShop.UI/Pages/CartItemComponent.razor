@@ -6,8 +6,8 @@
             <p>@CartItem!.Description</p>
             <table class="table mb-0">
               <tbody>
-                    <tr><td class="border-0 p-0">Size</td><td class="border-0 p-0"><div class="ms-2 badge text-bg-light rounded-0 fw-normal">M</div></td></tr>
-                    <tr><td class="border-0 p-0">Color</td><td class="border-0 p-0"><div class="ms-2 badge rounded-0 fw-normal" style="background-color:#000; color:#fff">B</div></td></tr>
+                    <tr><td class="border-0 p-0">Size</td><td class="border-0 p-0"><div class="ms-2 badge text-bg-light rounded-0 fw-normal">@CartItem.Size.Name</div></td></tr>
+                    <tr><td class="border-0 p-0">Color</td><td class="border-0 p-0"><div class="ms-2 badge rounded-0 fw-normal" style="background-color:@CartItem.Color.BGColor; color:#@CartItem.Color.TextColor">@CartItem.Color.Name</div></td></tr>
                     <tr><td class="border-0 p-0">Price</td><td class="border-0 p-0">123.25</td></tr>
               </tbody>
             </table>
@@ -16,7 +16,7 @@
                 style="background-color:#000; color:#000">B</div></div>
             <div>Price: 123.25</div> *@
         </div>
-        <button class="btn btn-danger btn-sm mt-2" @onclick="RemoveItem">Remove</button>
+        <button class="btn btn-danger btn-sm mt-2" @onclick="RemoveItem">Remove</button> @*onclick anropar metoden RemoveItem*@
     </div>
 </div>
 

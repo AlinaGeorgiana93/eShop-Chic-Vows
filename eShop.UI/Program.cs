@@ -12,9 +12,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddSingleton<UIService>();
-builder.Services.AddBlazoredLocalStorageAsSingleton();
+builder.Services.AddBlazoredLocalStorageAsSingleton(); //en färdig metod från Blazored nugget används för att komma få in och registrera ILocalStorageService för att kunna registrera vår metod nedan.
 //builder.Services.AddBlazoredSessionStorageAsSingleton();
-builder.Services.AddSingleton<IStorageService, LocalStorage>();
+builder.Services.AddSingleton<IStorageService, LocalStorage>(); // Använder metoden för att komma åt LocalStorage via Interfacet som injeseras.
 builder.Services.AddHttpClient<CategoryHttpClient>();
 builder.Services.AddHttpClient<ProductHttpClient>();
 ConfigureAutoMapper();

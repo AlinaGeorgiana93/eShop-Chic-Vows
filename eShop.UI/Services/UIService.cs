@@ -8,7 +8,7 @@ public class UIService(CategoryHttpClient categoryHttp,
 {
     List<CategoryGetDTO> Categories { get; set; } = [];
     public List<ProductGetDTO> Products { get; private set; } = [];
-    public List<CartItemDTO> CartItems { get; set; } = [];
+    public List<CartItemDTO> CartItems { get; set; } = []; //CartItemDTO används istället för productGetDTO för att vi vill inte ha listorna för färg och storlek. Vi vill spara undan som CartItem som har en färg och storlek som vi vallt.
     public List<LinkGroup> CaregoryLinkGroups { get; private set; } =
     [
         new LinkGroup {
@@ -43,22 +43,22 @@ public class UIService(CategoryHttpClient categoryHttp,
     public async Task GetProductsAsync() =>
         Products = await productHttp.GetProductsAsync(CurrentCategoryId);
 
-    public async Task<T> ReadStorage<T>(string key)// where T : class
+    public async Task<T> ReadStorage<T>(string key)// where T : class , Task<List<T>>
     {
         //if (string.IsNullOrEmpty(key) || storage is null) return new T();
         return await storage.GetAsync<T>(key);
     }
-    public async Task<T> ReadSingleStorage<T>(string key)// where T : class
+    public async Task<T> ReadSingleStorage<T>(string key)// where T : class , Returnerar en produkt
     {
         return await storage.GetAsync<T>(key);
     }
 
-    public async Task SaveToStorage<T>(string key, T value)// where T : class
+    public async Task SaveToStorage<T>(string key, T value)// where T : class, Sparar undan nyckel och värdet
     {
         if (string.IsNullOrEmpty(key) || storage is null) return;
-        await storage.SetAsync<T>(key, value);
+        await storage.SetAsync<T>(key, value); //SetAsync tar in nyckeln och värdet
     }
-    public async Task RemoveFromStorage(string key)// where T : class
+    public async Task RemoveFromStorage(string key)// where T : class , tar bort via nyckeln
     {
         if (string.IsNullOrEmpty(key) || storage is null) return;
         await storage.RemoveAsync(key);

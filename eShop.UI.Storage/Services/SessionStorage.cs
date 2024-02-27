@@ -2,7 +2,7 @@
 
 namespace eShop.UI.Storage.Services;
 
-public class SessionStorage(ISessionStorageService sessionStorage)
+public class SessionStorage(ISessionStorageService sessionStorage) //SessionStorage används istället för LocalStorage när vi vill spara undan data som bara finns så länge applikationen är startat i browsern.
     : IStorageService
 {
     public async Task<T?> GetAsync<T>(string key) =>
