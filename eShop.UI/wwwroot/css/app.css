@@ -111,8 +111,24 @@ nav a img {
 
     }
    
+   
 }
-.bg-body-secondary {
+
+.bg-primary {
     --bs-bg-opacity: 1;
+    background-color: lightseagreen !important;
+}
+
+.bg-body-secondary {
+    --bs-bg-opacity: 0.5;
     background-color: rgba(var(--bs-secondary-bg-rgb),var(--bs-bg-opacity)) !important;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+    color: lightseagreen;
+}
+.btn:hover {
+    color: lightseagreen;
+    background-color: lightpink;
+    border-color: var(--bs-btn-hover-border-color);
 }
