@@ -1,0 +1,37 @@
+﻿@page "/newpage"
+
+<div class="dropdown">  @*man kan lägga dessa kontroller i ett formulär som är kopplat direkt till ett API som man kan anropa för att uppdatera informationen.*@
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Dresses
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+</div>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Suits
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+</div>
+
+<button type="button" class="btn btn-primary" @onclick="Save">Add</button> @*onclick hänvisar till metoden Save*@
+
+@code {
+    void Save(){}
+    //Cascading? för att anropa parameterSetAsync och hämta datat via API för att loopa igenom produkterna
+}
+
+
+    @*UNIT TESTING:
+        Tanken med unit testing och varför det finns är att vi vill kunna testa så att en applikation inte slutar att 
+        fungerar om vi gör förängringar i den. X-unit, N-unit testar små enheter i våran kod där vi gör förändringar 
+        utan att sapotera hela våran kod. (kanske tar vi bort en property, eller skapar en produkt, ändrar produktbeskrivning)
+    *@

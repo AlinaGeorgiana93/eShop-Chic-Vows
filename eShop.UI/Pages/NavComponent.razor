@@ -23,7 +23,7 @@
                     data-bs-toggle="modal" data-bs-target="#cart"
                     class="btn btn-outline-success rounded-0">
                     <i class="bi bi-cart"></i></button>
-                <div class="cart-count bg-danger text-white rounded-circle position-absolute">3</div>
+                <div class="cart-count bg-danger text-white rounded-circle position-absolute">@UICartService!.CartItems.Count</div>
             </div>
             <div></div>
         </div>
@@ -37,12 +37,12 @@
     protected override async Task OnParametersSetAsync()
     {
         UICartService!.CartItems =
-            await UICartService!.ReadStorage<List<CartItemDTO>>("CartItems") ?? [];
+            await UICartService!.ReadStorage<List<CartItemDTO>>("CartItems") ?? []; //Hämtar CartItemDTO
     }
 
-    async Task OnRemoveCartItem(CartItemDTO? cartItem)
+    async Task OnRemoveCartItem(CartItemDTO? cartItem) 
     {
-        UICartService!.CartItems.Remove(cartItem);
-        await UICartService!.SaveToStorage("CartItems", UICartService!.CartItems);
+        UICartService!.CartItems.Remove(cartItem); //tar bort produkten med Removeknappen från kundvagnen
+        await UICartService!.SaveToStorage("CartItems", UICartService!.CartItems); //sparar listan av items.
     }
 }

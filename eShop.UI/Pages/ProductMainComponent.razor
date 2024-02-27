@@ -1,6 +1,6 @@
 ﻿@using AutoMapper
 @using eShop.UI.Storage.Services
-@inject IStorageService Storage
+@inject IStorageService Storage //behöver vi denna raden?
 @inject IMapper mapper
 
 <section class="d-flex flex-wrap">
@@ -47,7 +47,7 @@
                     }
                 }
 
-                <button class="btn btn-sm btn-success" @onclick="() => AddToCart(product)"><i class="bi-cart"></i></button>
+                <button class="btn btn-sm btn-success" @onclick="() => AddToCart(product)"><i class="bi-cart"></i></button> @* () => talar om att det är en eventfunktion som ska köra AddToCart*@
             </div>
 
         </div>
@@ -56,7 +56,7 @@
 
 @code {
     [CascadingParameter(Name = "Service")] public UIService? Service { get; set; }
-    [Parameter] public EventCallback OnChange { get; set; }
+    [Parameter] public EventCallback OnChange { get; set; } //publisher
 
     void OnColorClick(ProductGetDTO product, ColorGetDTO color)
     {
@@ -81,25 +81,27 @@
 
     async Task AddToCart(ProductGetDTO product)
     {
-       
-        var cartItem = mapper.Map<CartItemDTO>(product);
-        cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected);
+        //TODO: Spara flera produkter till shopping cart
+        //TODO: Visa produkterna i shopping carten
+        //TODO: Ta bort produkt från shopping cart
+        var cartItem = mapper.Map<CartItemDTO>(product);  // konverterar produkten till CartItemDTO
+        cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected); //hämtar ut den valda färgen av produkten
         cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
-        Service!.CartItems.Add(cartItem);
-        await Service!.SaveToStorage("CartItems", Service!.CartItems);
+        Service!.CartItems.Add(cartItem); //tar list-property från UIService för kundvagnen
+        await Service!.SaveToStorage("CartItems", Service!.CartItems); //sparar listan Service!.CartItems i storage
 
-            if (OnChange.HasDelegate)
-                 await OnChange.InvokeAsync();
+            if (OnChange.HasDelegate) //Ser om det finns någon metod som prenumererar på eventet
+                 await OnChange.InvokeAsync(); //om det finns prenumerant ska den triggas igång
 
-            //await Storage.SetAsync("MyKey", product);
-            //await Service!.SaveToStorage("MyKey", product);
+        //await Storage.SetAsync("MyKey", product);  //Sparar produkt man valt i kundvagnen
+        //await Service!.SaveToStorage("MyKey", product); //Sparar undan nyckeln och produkten i LocalStorage
 
-            //var prod = await Storage.GetAsync<ProductGetDTO>("MyKey");
-            //var prod = await Service!.ReadSingleStorage<ProductGetDTO>("MyKey");
+        //var prod = await Storage.GetAsync<ProductGetDTO>("MyKey"); //Hämtar produkt i kundvagn som sparats i LocalStorage även efter applikationen stängs
+            //var prod = await Service!.ReadSingleStorage<ProductGetDTO>("MyKey"); //hämtar en produkt från nyckeln vi anger
 
 
-            //await Storage.RemoveAsync("MyKey");
-            //await Service!.RemoveFromStorage("MyKey");
+            //await Storage.RemoveAsync("MyKey");  //Tar bort produkt i kundvagn
+            //await Service!.RemoveFromStorage("MyKey"); //
 
             //var product = Service!.Products.Single(p => p.Id == id);
 } 
