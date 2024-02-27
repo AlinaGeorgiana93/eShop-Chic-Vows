@@ -81,9 +81,7 @@
 
     async Task AddToCart(ProductGetDTO product)
     {
-        //TODO: Spara flera produkter till shopping cart
-        //TODO: Visa produkterna i shopping carten
-        //TODO: Ta bort produkt från shopping cart
+       
         var cartItem = mapper.Map<CartItemDTO>(product);
         cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected);
         cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
