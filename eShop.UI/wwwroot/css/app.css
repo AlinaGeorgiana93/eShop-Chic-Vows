@@ -44,7 +44,7 @@ h1:focus {
     font-size: 8.5rem !important;
 }*/
 nav a img {
-    height: 85px;
+    height: 100px;
   
 }
 
@@ -88,15 +88,14 @@ nav a img {
 
 .product-card-list:last-child {
     margin-right: 0rem;
-}*
-
+}
+*
 /*.btn-group {
     width: 0px !important;
 }*/
-
-
 .btn-radio {
     width: 45px;
+    font-size: 12px;
 }
 
 .modal-body img {
