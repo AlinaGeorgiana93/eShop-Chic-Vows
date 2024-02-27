@@ -6,6 +6,7 @@ public class Product : IEntity
     public string ?Name { get; set; }
     public string Description { get; set; } = string.Empty;
     public string PictureURL { get; set; } = string.Empty;
+    public decimal ? Price { get; set; }    
 
     public List<Category>? Categories { get; set; }
     public List<Color>? Colors { get; set; }
