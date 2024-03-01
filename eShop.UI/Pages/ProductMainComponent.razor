@@ -6,17 +6,13 @@
 <section class="d-flex flex-wrap">
     @foreach(var product in Service!.Products)
     {
-        <div class="card mb-3" style="max-width: 500px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="@product.PictureURL" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description.Truncate(300)</p>
-                    </div>
-                </div>
+        <div class="card border-success mb-3" style="max-width: 18rem; margin: 20px;">
+            <div class="card-header bg-transparent text-center">@product.Name</div>
+            <img src="@product.PictureURL" class="img-fluid rounded" alt="...">
+            <div class="card-body text-success">
+                <!--<h5 class="card-title">@product.Title</h5>-->
+                <p class="card-text">@product.Description.Truncate(150)</p>
+
             </div>
             <div class="d-flex card-footer bg-white g-0 justify-content-start">
                 @if (product.Sizes!.Count > 0)
@@ -85,16 +81,5 @@
             if (OnChange.HasDelegate) //Ser om det finns någon metod som prenumererar på eventet
                  await OnChange.InvokeAsync(); //om det finns prenumerant ska den triggas igång
 
-        //await Storage.SetAsync("MyKey", product);  //Sparar produkt man valt i kundvagnen
-        //await Service!.SaveToStorage("MyKey", product); //Sparar undan nyckeln och produkten i LocalStorage
-
-        //var prod = await Storage.GetAsync<ProductGetDTO>("MyKey"); //Hämtar produkt i kundvagn som sparats i LocalStorage även efter applikationen stängs
-            //var prod = await Service!.ReadSingleStorage<ProductGetDTO>("MyKey"); //hämtar en produkt från nyckeln vi anger
-
-
-            //await Storage.RemoveAsync("MyKey");  //Tar bort produkt i kundvagn
-            //await Service!.RemoveFromStorage("MyKey"); //
-
-            //var product = Service!.Products.Single(p => p.Id == id);
 } 
      }

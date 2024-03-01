@@ -6,11 +6,23 @@
     {
         <LinkMainComponent LinkGroup="group" OnAsideCall="OnAsideCallback"/>
     }
+
+    <!--<div class="mt-3">
+        <h5>Contact Us</h5>
+
+        <ul class="list-unstyled">
+            <li style="color:lightseagreen;"><i class="bi bi-envelope-fill"></i>chicvows@yahoo.com</li>
+            <li style="color:lightseagreen;"><i class="bi bi-instagram"></i>Chic Vows official</li>
+            <li style="color:lightseagreen;"><i class="bi bi-phone-fill"></i>0734572387</li>
+        </ul>
+    </div>
+    -->
 </aside>
 
 @code {
     [CascadingParameter(Name = "Service")] public UIService? Service { get; set; }
     [Parameter] public EventCallback OnChange { get; set; }
+  
 
     async Task OnAsideCallback(int id)
     {

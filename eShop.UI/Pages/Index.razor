@@ -2,9 +2,10 @@
 @inject UIService Service
 
 <NavComponent UICartService="Service" />
-@* <MenuComponent />
+@*s<MenuComponent />
 <CarouselComponent />
 <CardListComponent />
+
  *@
 <div id="viewport" class="d-flex vh-100">
     <CascadingValue Value="Service" Name="Service"> @*CascadingValue Value är ett sätt för oss att kunna skicka in objekt/sträng/värde och flöda igenom alla komponenter.*@
@@ -20,13 +21,3 @@
     }
 }
 
-@*
-   1. Lista Kategorier
-      * AsideComponent, ProductComponent, LinkComponent och Link (i Razor Class Library)
-      * CategoryHttpClient (ej SessionStorage och filter data till att börja med)
-      * UIService (för att hämta data från APIer)
-   2. Lista Producter för vald Kategori
-      * ProductHttpClient
-   3. Lägga till i Kundvagn
-   4. Visa Kundvagn
-*@

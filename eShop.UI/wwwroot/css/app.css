@@ -22,9 +22,9 @@ h1:focus {
     top: 0.5rem;
 }
 body {
-    background-image: url("Images/csspicture.png");
+    background-image: url("images/csspic2.png");
     background-size: cover;
-    background-position: center;
+    background-position: top;
     margin: 0;
     padding: 0;
     height: 150vh;
@@ -46,20 +46,18 @@ body {
 }*/
 
 #product-image-1 {
-    height: 90px;
+    height: 70px;
 }
 
-/*.bi.bi-cart {
-    font-size: 8.5rem !important;
-}*/
 nav a img {
-    height: 100px;
-  
+    height: 100px; 
 }
-
 
 .search-width{
     width: 25%;
+}
+.custom-bg {
+    background-color: rgba(253, 245, 230, 0.8);
 }
 
 /*#cart-button {
@@ -75,20 +73,16 @@ nav a img {
     margin-top: -10px;
     margin-right: -8px;
     font-size: 9pt;
-    font-family: 'Dancing Script'
+    font-family: 'Comic Sans MS'
 }
-
-/*.dropdown .btn{
-    height:49px;
-}*/
 
 .carousel.slide {
     width: 75%;
 }
 
 .product-card {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
 }
 
 .product-card-list:first-child {
@@ -98,17 +92,32 @@ nav a img {
 .product-card-list:last-child {
     margin-right: 0rem;
 }
-*
-/*.btn-group {
-    width: 0px !important;
-}*/
+.card {
+    --bs-card-spacer-y: 1.5rem;
+    --bs-card-spacer-x: 1rem;
+    --bs-card-title-spacer-y: 0.5 rem;
+    --bs-card-title-color: lightseagreen;
+    --bs-card-subtitle-color: lightpink;
+    --bs-card-bg:white; 
+}
+.card-title {
+    margin-bottom: var(--bs-card-title-spacer-y);
+    color: var(--bs-card-title-color);
+    margin-top: 20px;
+}
+
 .btn-radio {
     width: 45px;
     font-size: 12px;
 }
 
+
+
 .modal-body img {
-    max-height: 153px!important;
+    max-height: 100px!important;
+}
+.mb-3 {
+    margin-bottom: 20rem !important;
 }
 
 
@@ -117,15 +126,19 @@ nav a img {
         height: auto !important;
         flex-direction: column;
         opacity: 0.8;
-
-    }
-   
-   
+    }  
 }
 
 .bg-primary {
-    --bs-bg-opacity: 1;
-    background-color: lightseagreen !important;
+    --bs-bg-opacity: 0.5;
+    background-color: dimgrey !important;
+}
+.buy-bg {
+    background-color: rgba(253, 245, 230, 0.8);
+}
+
+.close-bg {
+    background-color: rgba(253, 245, 230, 0.8);
 }
 
 .bg-body-secondary {
@@ -134,10 +147,15 @@ nav a img {
 }
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
     cursor: pointer;
-    color: lightseagreen;
+    color: dimgray;
 }
 .btn:hover {
-    color: lightseagreen;
-    background-color: lightpink;
+    color: dimgrey;
+    background-color:darkseagreen;
     border-color: var(--bs-btn-hover-border-color);
+}
+.h5, h5 {
+    font-size: 1.1rem;
+    margin-top: 85px;
+    color: dimgray;
 }
