@@ -8,7 +8,7 @@
               <tbody>
                     <tr><td class="border-0 p-0">Size</td><td class="border-0 p-0"><div class="ms-2 badge text-bg-light rounded-0 fw-normal">@CartItem.Size?.Name</div></td></tr>
                     <tr><td class="border-0 p-0">Color</td><td class="border-0 p-0"><div class="ms-2 badge rounded-0 fw-normal" style="background-color:#@CartItem.Color.BGColor; color:#@CartItem.Color.TextColor">@CartItem.Color.Name</div></td></tr>
-                    <tr><td class="border-0 p-0">Price</td><td class="border-0 p-0">@CartItem!.Price</td></tr>
+                    <tr><td class="border-0 p-0">Price</td><td class="border-0 p-0">@CartItem!.Price kr</td></tr>
               </tbody>
             </table>
             
@@ -27,17 +27,5 @@
         if (OnRemoveItem.HasDelegate)
             OnRemoveItem.InvokeAsync(CartItem);
     }
-    /*decimal CalculateTotal()
-         {
-         decimal total = 0;
-         if (CartItems != null)
-             {
-             foreach (var item in CartItems)
-                 {
-                 total += item.Price;
-         }
-         }
-     return total;
-         }
-    */
+        
 }
