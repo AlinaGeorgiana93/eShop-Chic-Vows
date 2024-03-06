@@ -6,6 +6,7 @@ namespace eShop.UI.Services;
 public class UIService(CategoryHttpClient categoryHttp,
     ProductHttpClient productHttp, IMapper mapper, IStorageService storage)
 {
+    public bool HasSizeOrColor { get; set; } = true;
     List<CategoryGetDTO> Categories { get; set; } = [];
     public List<ProductGetDTO> Products { get; private set; } = [];
     public List<CartItemDTO> CartItems { get; set; } = []; //CartItemDTO används istället för productGetDTO för att vi vill inte ha listorna för färg och storlek. Vi vill spara undan som CartItem som har en färg och storlek som vi vallt.
