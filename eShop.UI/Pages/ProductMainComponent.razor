@@ -2,67 +2,73 @@
 @using eShop.UI.Storage.Services
 @inject IStorageService Storage //behöver vi denna raden?
 @inject IMapper mapper
+<div style=" display: flex; flex-direction: column; align-items: center">
+    <section class="d-flex flex-wrap">
+        @foreach(var product in Service!.Products)
+        {
+            <div class="card border-success mb-3" style="max-width: 18rem; margin: 20px;">
+                <div class="card-header bg-transparent text-center">@product.Name</div>
+                <img src="@product.PictureURL" class="img-fluid rounded" alt="...">
+                <div class="card-body text-success">
+                    <!--<h5 class="card-title">@product.Title</h5>-->
+                    <p class="card-text">@product.Description.Truncate(150)</p>
 
-<section class="d-flex flex-wrap">
-    @foreach(var product in Service!.Products)
-    {
-        <div class="card border-success mb-3" style="max-width: 18rem; margin: 20px;">
-            <div class="card-header bg-transparent text-center">@product.Name</div>
-            <img src="@product.PictureURL" class="img-fluid rounded" alt="...">
-            <div class="card-body text-success">
-                <!--<h5 class="card-title">@product.Title</h5>-->
-                <p class="card-text">@product.Description.Truncate(150)</p>
+                </div>
+                <div class="d-flex card-footer bg-white justify-content-between align-items-center">
+                    <div>
+                        @if (product.Sizes!.Count > 0)
+                        {
+                            <div class="btn-group me-2" role="group" aria-label="Basic radio toggle button group">
+                                @foreach (var size in product.Sizes)
+                                {
+                                    <input type="radio" class="btn-check" name="btnradio"
+                                           id="size-@product.Id-@size.Id"
+                                           @onclick="() => OnSizeClick(product, size)"
+                                           autocomplete="off" checked>
+                                    <label class="btn btn-sm btn-outline-secondary m-0 p-1"
+                                           for="size-@product.Id-@size.Id">@size.Name.ToUpper()</label>
+                                }
+                            </div>
+                        }
+                        @if (product.Colors!.Count > 0)
+                        {
+                            <div class="btn-group me-2" role="group" aria-label="Basic radio toggle button group">
+                                @foreach (var color in product.Colors)
+                                {
+                                    <input type="radio" class="btn-check" name="color-@product.Id-@color.Id" id="color-@product.Id-@color.Id"
+                                           autocomplete="off" @onclick="() => OnColorClick(product, color)">
+                                    <label class="btn btn-sm btn-outline-secondary m-0 p-1"
+                                           style="background-color:#@color.BGColor; color:#@(color.IsSelected ? color.TextColor : color.BGColor)"
+                                           for="color-@product.Id-@color.Id"><i class="bi bi-check"></i></label>
+                                }
+                            </div>
+                        }
+                    </div>
 
-            </div>
-            <div class="d-flex card-footer bg-white justify-content-between align-items-center">
-                <div>
-                    @if (product.Sizes!.Count > 0)
-                    {
-                        <div class="btn-group me-2" role="group" aria-label="Basic radio toggle button group">
-                            @foreach (var size in product.Sizes)
-                            {
-                                <input type="radio" class="btn-check" name="btnradio"
-                                       id="size-@product.Id-@size.Id"
-                                       @onclick="() => OnSizeClick(product, size)"
-                                       autocomplete="off" checked>
-                                <label class="btn btn-sm btn-outline-secondary m-0 p-1"
-                                       for="size-@product.Id-@size.Id">@size.Name.ToUpper()</label>
-                            }
-                        </div>
-                    }
-                    @if (product.Colors!.Count > 0)
-                    {
-                        <div class="btn-group me-2" role="group" aria-label="Basic radio toggle button group">
-                            @foreach (var color in product.Colors)
-                            {
-                                <input type="radio" class="btn-check" name="color-@product.Id-@color.Id" id="color-@product.Id-@color.Id"
-                                       autocomplete="off" @onclick="() => OnColorClick(product, color)">
-                                <label class="btn btn-sm btn-outline-secondary m-0 p-1"
-                                       style="background-color:#@color.BGColor; color:#@(color.IsSelected ? color.TextColor : color.BGColor)"
-                                       for="color-@product.Id-@color.Id"><i class="bi bi-check"></i></label>
-                            }
-                        </div>
-                    }
+
+                    <button class="btn btn-sm btn-success bg-body-secondary" @onclick="() => AddToCart(product)"><i class=" bi bi-handbag"></i></button> @* () => talar om att det är en eventfunktion som ska köra AddToCart*@
                 </div>
 
-
-                <button class="btn btn-sm btn-success bg-body-secondary" @onclick="() => AddToCart(product)"><i class=" bi bi-handbag"></i></button> @* () => talar om att det är en eventfunktion som ska köra AddToCart*@
             </div>
+        
+        }
+    </section>
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="error-box">@error</div>
 
-        </div>
-        
-    }
-    @if (HasSizeOrColor == false)
-    {
-        
-    }
-</section>
+        }
+</div>
+
+   
+
 
 @code {
     public bool HasSizeOrColor { get; set; } = true;
     [CascadingParameter(Name = "Service")] public UIService? Service { get; set; }
     [Parameter] public EventCallback OnChange { get; set; } //publisher
-   
+    string error = string.Empty;
+
     void OnColorClick(ProductGetDTO product, ColorGetDTO color)
     {
         product.Colors!.ForEach(c => c.IsSelected = false);
@@ -78,23 +84,28 @@
 
     async Task AddToCart(ProductGetDTO product)
     {
-        if (product.Colors!.Any(c => c.IsSelected) && product.Sizes!.Any(s => s.IsSelected))
+        try
         {
             var cartItem = mapper.Map<CartItemDTO>(product);
             cartItem.Description = null;
             cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected);
             cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
+            if (cartItem.Color == null || cartItem.Size == null)
+            {
+                error = " Color or size is not selected for your product!";
+                return;
+            }
             Service!.CartItems.Add(cartItem);
             await Service!.SaveToStorage("CartItems", Service!.CartItems);
 
             if (OnChange.HasDelegate)
                 await OnChange.InvokeAsync();
-            HasSizeOrColor = true;
+            error = string.Empty;
         }
-        else
+        catch(Exception ex)
         {
-            Console.WriteLine("Please choose both size and color before adding to cart.");
-            HasSizeOrColor = false;
+            error = $"An error occurred:{ex.Message}";
+
         }
     }
 }

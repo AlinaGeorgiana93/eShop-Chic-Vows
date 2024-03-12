@@ -193,4 +193,19 @@ nav a img {
 .bg-danger {
     color: darkseagreen;
 }
-
+.error-box {
+    background-color: oldlace;
+    color: dimgray;
+    font-family: 'Comic Sans MS', cursive;
+    box-sizing: border-box;
+    width: 380px;
+    height: 80px;
+    line-height: 30px;
+    border: 1px solid dimgrey;
+    padding: 5px;
+    margin: 20px auto; /* Center horizontally and add margin */
+    text-align: center;
+    border-radius: 10px;
+    margin-top: -270px;
+    transform: translate(0%, -50%);
+}
