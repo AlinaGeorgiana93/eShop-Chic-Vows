@@ -19,7 +19,7 @@
 
 @code {
     [Parameter] public CartItemDTO? CartItem { get; set; }
-    [Parameter] public List<CartItemDTO>? CartItems { get; set; }
+    //[Parameter] public List<CartItemDTO>? CartItems { get; set; }
     [Parameter] public EventCallback<CartItemDTO?> OnRemoveItem { get; set; }
 
     void RemoveItem()

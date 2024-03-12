@@ -45,15 +45,21 @@
                     }
                 </div>
 
+
                 <button class="btn btn-sm btn-success bg-body-secondary" @onclick="() => AddToCart(product)"><i class=" bi bi-handbag"></i></button> @* () => talar om att det är en eventfunktion som ska köra AddToCart*@
             </div>
 
         </div>
         
     }
+    @if (HasSizeOrColor == false)
+    {
+        
+    }
 </section>
 
 @code {
+    public bool HasSizeOrColor { get; set; } = true;
     [CascadingParameter(Name = "Service")] public UIService? Service { get; set; }
     [Parameter] public EventCallback OnChange { get; set; } //publisher
    
@@ -72,16 +78,23 @@
 
     async Task AddToCart(ProductGetDTO product)
     {
-        
-        var cartItem = mapper.Map<CartItemDTO>(product);  // konverterar produkten till CartItemDTO
-        cartItem.Description = null; //set to null because we don't need description in our Cart
-        cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected); //hämtar ut den valda färgen av produkten
-        cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
-        Service!.CartItems.Add(cartItem); //tar list-property från UIService för kundvagnen
-        await Service!.SaveToStorage("CartItems", Service!.CartItems); //sparar listan Service!.CartItems i storage
+        if (product.Colors!.Any(c => c.IsSelected) && product.Sizes!.Any(s => s.IsSelected))
+        {
+            var cartItem = mapper.Map<CartItemDTO>(product);
+            cartItem.Description = null;
+            cartItem.Color = product.Colors!.FirstOrDefault(c => c.IsSelected);
+            cartItem.Size = product.Sizes!.FirstOrDefault(s => s.IsSelected);
+            Service!.CartItems.Add(cartItem);
+            await Service!.SaveToStorage("CartItems", Service!.CartItems);
 
-            if (OnChange.HasDelegate) //Ser om det finns någon metod som prenumererar på eventet
-                 await OnChange.InvokeAsync(); //om det finns prenumerant ska den triggas igång
-
-} 
-     }
+            if (OnChange.HasDelegate)
+                await OnChange.InvokeAsync();
+            HasSizeOrColor = true;
+        }
+        else
+        {
+            Console.WriteLine("Please choose both size and color before adding to cart.");
+            HasSizeOrColor = false;
+        }
+    }
+}
