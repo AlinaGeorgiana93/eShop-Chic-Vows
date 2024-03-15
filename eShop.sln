@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.UI.Storage", "eShop.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.UI.Admin", "eShop.UI.Admin\eShop.UI.Admin.csproj", "{D3523DA5-C76E-4AC5-B7D4-1B7B923D0580}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Filter", "API.Filter\API.Filter.csproj", "{42F6AE61-AFA5-47B8-9059-60DD8327E276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API.Filter", "API.Filter\API.Filter.csproj", "{42F6AE61-AFA5-47B8-9059-60DD8327E276}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

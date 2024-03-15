@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
 namespace eShop.UI.Http.Clients;

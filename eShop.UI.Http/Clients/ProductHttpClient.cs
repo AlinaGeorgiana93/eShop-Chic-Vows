@@ -1,7 +1,4 @@
 ﻿
-
-
-
 using System.Text.Json;
 
 namespace eShop.UI.Http.Clients;

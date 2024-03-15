@@ -1,11 +1,183 @@
 ﻿@page "/"
+@using AutoMapper
+@using eShop.API.DTO
+@using eShop.Data
+@using eShop.Data.Services
+
+@inject AdminCategoryService Service;
+@inject IMapper mapper;
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid" style="background: linear-gradient(to bottom, lightpink, lightseagreen);">
+    <div class="row justify-content-center">
+        <nav class="navbar d-flex justify-content-between mx-3" style="height: 70px;">
+            <a class="navbar-brand" href="#">
+                <img src="/sample-data/logo.png" alt="Chic Vowslogo" class="navbar-logo" style="height: 70px;">
+            </a>
+        <!-- Center the content horizontally -->
+        <div class="col-md-6 text-center">
+            <!-- Adjust column width and text alignment -->
+            <button type="button" class="btn btn-primary mb-3" @onclick="()=> ShowUpdate = !ShowUpdate">Update</button>
+            <button type="button" class="btn btn-success mb-3 ml-2" @onclick="()=> ShowAdd = !ShowAdd">Add New</button>
+        
+        </div>
+        </nav>
+    </div>
 
-<div class="alert alert-warning" role="alert">
-    Before authentication will function correctly, you must configure your provider details in <code>Program.cs</code>
+    <h1 style="color: dimgray;">Categories</h1>
+
+    @if (Service.Categories != null)
+    {
+
+
+        @foreach (var category in Service.Categories!)
+        {
+            <table class="table table-custom table-bordered rounded" style="background-color: oldlace; width: 70%;">
+        <thead class="thead-custom">
+            <tr>
+                <th style="width:80px;">ID</th>
+                <th style="width: 160px;">Name</th>
+            </tr>
+        </thead>
+                <tbody>
+                    <tr>
+                        <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@category.Id</td>
+                        <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@category.Name</td>
+                    </tr>
+                </tbody>
+            </table>
+            @if (!ShowUpdate)
+            {
+                <button type="button" class="btn btn-danger" @onclick="() => { ShowDelete = !ShowDelete; SelectedCategoryId = category.Id; }">Delete</button>
+            }
+            <div class="container-fluid mb-5">
+                @* <h2 style="color: white;">@category.CategoryType!</h2> *@
+
+                <!-- Input form for updating values -->
+                @if (ShowUpdate)
+                {
+                    <style>
+                        .form-group label {
+                            color: antiquewhite;
+                        }
+                    </style>
+                    <div class="form-group">
+                        <label for="newCategoryType_@category.Id">New Category Name:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="newCategoryName_@category.Id" @bind="category.Name" />
+                    </div>
+
+                    <button type="button" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;" @onclick="()=> UpdateEntity(category)">Confirm</button>
+                }
+
+            </div>
+        }
+    }
 </div>
+<!-- Modal for adding a new category -->
+@if (ShowAdd)
+{
+    <div class="modal show" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-secondary" style="color: dimgray">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Category</h5>
+                    @* <button type="button" class="close" @onclick="()=> ShowAdd = !ShowAdd">
+                <span aria-hidden="true">&times;</span>
+                </button> *@
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="newCategoryType_Add">New Category Name:</label>
+                        <input type="text" class="form-control bg-dark text-white" id="newCategoryType_Add" @bind="entityName" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" @onclick="() => AddEntity(entityName)">Confirm</button>
+                    <button type="button" class="btn btn-secondary" @onclick="()=> ShowAdd = !ShowAdd">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
-Welcome to your new app.
+
+@if (ShowDelete)
+{
+    <div class="modal show" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bg-dark" style="color: dimgray">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Category</h5>
+                    @* <button type="button" class="close" @onclick="()=> ShowDelete = !ShowDelete">
+                <span aria-hidden="true">&times;</span>
+                </button> *@
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this category?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" @onclick="()=> DeleteEntity()">Confirm Delete</button>
+                    <button type="button" class="btn btn-secondary" @onclick="()=> ShowDelete = !ShowDelete">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    string errorMessage;
+    bool ShowUpdate = false;
+    bool ShowAdd = false;
+    bool ShowDelete = false;
+    int SelectedCategoryId;
+    string? entityName;
+
+
+    public async Task UpdateEntity(CategoryGetDTO category)
+    {
+        var mappedC = mapper.Map<CategoryPutDTO>(category);
+
+        if (Service is not null)
+        {
+            await Service.UpdateAdminCategory(mappedC.Id, mappedC);
+            await Service.AdminGetAllCategories();
+        }
+        ShowUpdate = false;
+    }
+
+    public async Task AddEntity(string name)
+    {
+        if (Service is not null)
+        {
+            await Service.AddAdminCategory(name);
+            await Service.AdminGetAllCategories();
+        }
+        ShowAdd = false;
+    }
+
+    public async Task DeleteEntity()
+    {
+        if (Service is not null)
+        {
+            await Service.DeleteAdminCategory(SelectedCategoryId);
+            await Service.AdminGetAllCategories();
+        }
+        ShowDelete = false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Service is not null)
+        {
+            await Service.AdminGetAllCategories();
+            ShowUpdate = false;
+        }
+    }
+
+    void OnChange()
+    {
+        //update website
+    }
+}

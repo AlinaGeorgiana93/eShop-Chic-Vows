@@ -17,3 +17,8 @@ public class CategoryGetDTO : CategoryPutDTO
 public class CategorySmallGetDTO : CategoryPutDTO
 {
 }
+public class CategoryEditDTO
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+}
